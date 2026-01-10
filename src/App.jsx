@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Plus, Star, Flame, Heart, Trophy, X, Sparkles, MessageCircle, Users, Skull, Quote, Home, ArrowRight, Zap, Gift } from 'lucide-react';
+import { Check, Plus, Star, Flame, Heart, Trophy, X, Sparkles, MessageCircle, Users, Skull, Quote, Home, ArrowRight, Zap, Gift, Bot, Send } from 'lucide-react';
 
 const SAMPLE_TASKS = [
   { id: 1, text: 'Vacuum the house', emoji: '🧹', xp: 40, done: false },
@@ -62,6 +62,67 @@ const HALL_OF_SHAME = [
   { name: 'Blind Bob', sin: 'Can\'t see mess right in front of him', avatar: '🙈', wives_left: 2 },
 ];
 
+// Wife Whisperer AI Responses
+const WHISPERER_TIPS = {
+  vacuum: [
+    "Pro tip: Move the furniture, don't just vacuum around it. She WILL check. 🕵️",
+    "The edges! For the love of all that is holy, get the edges and corners! 🎯",
+    "Empty the vacuum bag BEFORE it explodes. Learned that one the hard way... 💨",
+    "Vacuum in straight lines like a lawn. It shows you actually tried. ✨",
+  ],
+  dishes: [
+    "Pre-rinse is not optional. Dried cheese is the enemy of marriages. 🧀",
+    "The dishwasher has a CORRECT way to load. Ask her. Memorize it. Live it. 📐",
+    "Hand wash the good knives! Unless you want to buy new ones... and explain why. 🔪",
+    "Wipe down the sink after. That's the chef's kiss that earns bonus points. 💋",
+  ],
+  bathroom: [
+    "The toilet has THREE surfaces: lid, seat, AND the base. Clean all of them. 🚽",
+    "That mirror? Streak-free or it didn't happen. Use newspaper if you have to. ✨",
+    "Check behind the toilet. I know. Just do it. Trust me on this one. 👀",
+    "Replace the toilet paper roll BEFORE it runs out. Revolutionary, I know. 🧻",
+  ],
+  dog: [
+    "Bring poop bags. Multiple. The dog WILL go twice just to test you. 💩",
+    "A tired dog is a good dog. Walk until they're actually tired. 🐕",
+    "Clean the paws before coming inside. She will notice the muddy prints. 🐾",
+    "Bonus points: Take a cute photo and send it to her. Free brownie points! 📸",
+  ],
+  gifts: [
+    "Flowers are nice, but know her FAVORITE flowers. Generic roses = C+ effort. 💐",
+    "It's not about the price, it's about showing you LISTENED. What did she mention wanting? 🎁",
+    "Surprise her on a random Tuesday. Anniversary gifts are expected. Random = romantic. 💕",
+    "When in doubt: her favorite snack + her favorite drink + uninterrupted peace. Chef's kiss. 👨‍🍳",
+  ],
+  general: [
+    "Before you say 'done', ask yourself: would SHE say it's done? 🤔",
+    "If you have to ask 'is this clean enough?' - it's not. Keep going. 💪",
+    "Take a before & after photo. Proof of effort goes a long way. 📱",
+    "The secret ingredient is doing it WITHOUT being asked. That's the real flex. 🔥",
+    "When she says 'it's fine', it's NOT fine. Read the room, king. 👑",
+  ],
+  glasses: [
+    "There's a designated spot. Find it. Use it. Every. Single. Time. 👓",
+    "Clean them too while you're at it. Smudge-free = extra credit. ✨",
+    "If you can't find the spot, ASK. It's not a trap, I promise. Maybe. 😅",
+  ],
+};
+
+const WHISPERER_GREETINGS = [
+  "Ah, another brave husband seeking wisdom. How can I help you not mess this up? 😏",
+  "Welcome, domestic warrior. The Wife Whisperer is here to save your marriage... I mean, help. 💪",
+  "Greetings! Ready to transform from clueless to flawless? Let's do this. ✨",
+];
+
+const QUICK_QUESTIONS = [
+  { id: 'vacuum', label: '🧹 Vacuuming tips?' },
+  { id: 'dishes', label: '🍽️ Dish duty help!' },
+  { id: 'bathroom', label: '🚿 Bathroom advice?' },
+  { id: 'dog', label: '🐕 Dog walking tips?' },
+  { id: 'gifts', label: '🎁 Gift ideas?' },
+  { id: 'general', label: '💡 General wisdom' },
+];
+
 export default function HoneyDoRPG() {
   const [tasks, setTasks] = useState(SAMPLE_TASKS);
   const [xp, setXp] = useState(150);
@@ -71,6 +132,11 @@ export default function HoneyDoRPG() {
   const [showAdd, setShowAdd] = useState(false);
   const [flirtyMessage, setFlirtyMessage] = useState(null);
   const [activeTab, setActiveTab] = useState('home');
+  const [showChat, setShowChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'bot', text: WHISPERER_GREETINGS[Math.floor(Math.random() * WHISPERER_GREETINGS.length)] }
+  ]);
+  const [chatInput, setChatInput] = useState('');
 
   const level = Math.floor(xp / 200) + 1;
   const xpProgress = (xp % 200) / 200 * 100;
@@ -111,6 +177,39 @@ export default function HoneyDoRPG() {
 
   const deleteTask = (id) => {
     setTasks(tasks.filter(t => t.id !== id));
+  };
+
+  const getWhispererResponse = (topic) => {
+    const tips = WHISPERER_TIPS[topic] || WHISPERER_TIPS.general;
+    return tips[Math.floor(Math.random() * tips.length)];
+  };
+
+  const handleChatSubmit = (topic) => {
+    const userMessage = typeof topic === 'string' ?
+      QUICK_QUESTIONS.find(q => q.id === topic)?.label || topic :
+      chatInput;
+
+    if (!userMessage.trim()) return;
+
+    // Add user message
+    setChatMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+    setChatInput('');
+
+    // Determine topic from input
+    let detectedTopic = 'general';
+    const lowerInput = userMessage.toLowerCase();
+    if (lowerInput.includes('vacuum') || lowerInput.includes('floor')) detectedTopic = 'vacuum';
+    else if (lowerInput.includes('dish') || lowerInput.includes('kitchen') || lowerInput.includes('sink')) detectedTopic = 'dishes';
+    else if (lowerInput.includes('bath') || lowerInput.includes('toilet') || lowerInput.includes('shower')) detectedTopic = 'bathroom';
+    else if (lowerInput.includes('dog') || lowerInput.includes('walk') || lowerInput.includes('pet')) detectedTopic = 'dog';
+    else if (lowerInput.includes('gift') || lowerInput.includes('present') || lowerInput.includes('flower')) detectedTopic = 'gifts';
+    else if (lowerInput.includes('glass') || lowerInput.includes('spectacle')) detectedTopic = 'glasses';
+    else if (typeof topic === 'string') detectedTopic = topic;
+
+    // Add bot response after a short delay
+    setTimeout(() => {
+      setChatMessages(prev => [...prev, { role: 'bot', text: getWhispererResponse(detectedTopic) }]);
+    }, 500);
   };
 
   const pendingTasks = tasks.filter(t => !t.done);
@@ -671,6 +770,90 @@ export default function HoneyDoRPG() {
               >
                 Add Task 💕
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Chat Button */}
+      <button
+        onClick={() => setShowChat(true)}
+        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all flex items-center justify-center z-40"
+      >
+        <Bot className="w-8 h-8" />
+      </button>
+
+      {/* Wife Whisperer Chat Modal */}
+      {showChat && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-end sm:items-center justify-center z-50">
+          <div className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-3xl flex flex-col max-h-[80vh] sm:m-4">
+            {/* Chat Header */}
+            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-4 sm:rounded-t-2xl rounded-t-3xl flex items-center gap-3">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <Bot className="w-7 h-7 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-white">The Wife Whisperer</h3>
+                <p className="text-purple-100 text-sm">Your secret weapon for domestic success</p>
+              </div>
+              <button
+                onClick={() => setShowChat(false)}
+                className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[200px]">
+              {chatMessages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] px-4 py-3 rounded-2xl ${
+                    msg.role === 'user'
+                      ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {msg.role === 'bot' && <span className="text-purple-500 font-medium">🧙 </span>}
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Questions */}
+            <div className="px-4 pb-2">
+              <p className="text-xs text-gray-400 mb-2">Quick questions:</p>
+              <div className="flex flex-wrap gap-2">
+                {QUICK_QUESTIONS.map(q => (
+                  <button
+                    key={q.id}
+                    onClick={() => handleChatSubmit(q.id)}
+                    className="px-3 py-1.5 bg-purple-50 text-purple-600 rounded-full text-sm hover:bg-purple-100 transition-colors"
+                  >
+                    {q.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Chat Input */}
+            <div className="p-4 border-t border-gray-100">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ask the Wife Whisperer..."
+                  className="flex-1 px-4 py-3 bg-gray-100 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:ring-2 ring-purple-500 transition-shadow"
+                  onKeyPress={(e) => e.key === 'Enter' && handleChatSubmit(chatInput)}
+                />
+                <button
+                  onClick={() => handleChatSubmit(chatInput)}
+                  className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-xl hover:opacity-90 transition-opacity"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
