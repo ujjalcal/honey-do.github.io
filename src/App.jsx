@@ -363,6 +363,27 @@ export default function HoneyDoRPG() {
               </div>
             </div>
 
+            {/* Wife Whisperer Feature */}
+            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl p-6 text-white">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
+                  <Bot className="w-9 h-9 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="font-bold text-xl">Wife Whisperer™</h3>
+                    <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">Patent Pending</span>
+                  </div>
+                  <p className="text-purple-100 mt-1">AI-powered advice to help you complete tasks perfectly. Never mess up again!</p>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="text-xs bg-white/10 px-3 py-1 rounded-full">🧹 Cleaning Tips</span>
+                <span className="text-xs bg-white/10 px-3 py-1 rounded-full">🎁 Gift Ideas</span>
+                <span className="text-xs bg-white/10 px-3 py-1 rounded-full">💡 Pro Secrets</span>
+              </div>
+            </div>
+
             {/* Testimonial */}
             <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-6 border border-rose-100">
               <div className="text-center">
