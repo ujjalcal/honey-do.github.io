@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Plus, Star, Flame, Heart, Trophy, X, Sparkles, MessageCircle, Users, Skull, Quote } from 'lucide-react';
+import { Check, Plus, Star, Flame, Heart, Trophy, X, Sparkles, MessageCircle, Users, Skull, Quote, Home, ArrowRight, Zap, Gift } from 'lucide-react';
 
 const SAMPLE_TASKS = [
   { id: 1, text: 'Vacuum the house', emoji: '🧹', xp: 40, done: false },
@@ -70,7 +70,7 @@ export default function HoneyDoRPG() {
   const [newTask, setNewTask] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [flirtyMessage, setFlirtyMessage] = useState(null);
-  const [activeTab, setActiveTab] = useState('tasks');
+  const [activeTab, setActiveTab] = useState('home');
 
   const level = Math.floor(xp / 200) + 1;
   const xpProgress = (xp % 200) / 200 * 100;
@@ -146,6 +146,7 @@ export default function HoneyDoRPG() {
       <div className="max-w-lg mx-auto px-5 pt-4">
         <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
           {[
+            { id: 'home', label: 'Home', icon: Home },
             { id: 'tasks', label: 'Tasks', icon: Sparkles },
             { id: 'review', label: 'Review', icon: MessageCircle },
             { id: 'rank', label: 'Rankings', icon: Users },
@@ -167,6 +168,101 @@ export default function HoneyDoRPG() {
       </div>
 
       <div className="max-w-lg mx-auto px-5 py-6">
+        {/* Home/Marketing Tab */}
+        {activeTab === 'home' && (
+          <div className="space-y-6">
+            {/* Hero Section */}
+            <div className="text-center py-8">
+              <div className="text-7xl mb-4">💑</div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                Turn Chores Into <span className="bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">Romance</span>
+              </h2>
+              <p className="text-gray-600 text-lg mb-6">
+                The gamified way to be a better partner
+              </p>
+              <button
+                onClick={() => setActiveTab('tasks')}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-full text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              >
+                Get Started <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Features */}
+            <div className="grid gap-4">
+              <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center">
+                    <Zap className="w-7 h-7 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Earn XP & Level Up</h3>
+                    <p className="text-sm text-gray-500">Complete tasks to earn Love Points and unlock titles</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-rose-50 rounded-xl flex items-center justify-center">
+                    <Heart className="w-7 h-7 text-rose-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Romance Meter</h3>
+                    <p className="text-sm text-gray-500">Watch her mood improve with every task you complete</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-orange-50 rounded-xl flex items-center justify-center">
+                    <Flame className="w-7 h-7 text-orange-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Build Hot Streaks</h3>
+                    <p className="text-sm text-gray-500">Chain tasks together for bonus multipliers</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center">
+                    <Trophy className="w-7 h-7 text-purple-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Compete & Compare</h3>
+                    <p className="text-sm text-gray-500">See how you rank against other husbands</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial */}
+            <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-6 border border-rose-100">
+              <div className="text-center">
+                <div className="text-4xl mb-3">🥰</div>
+                <p className="text-gray-700 italic mb-3">
+                  "He went from Couch Potato to Domestic Dreamboat. I didn't know laundry could be so attractive!"
+                </p>
+                <p className="text-sm text-rose-500 font-medium">— A Very Happy Wife</p>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center pb-4">
+              <button
+                onClick={() => setActiveTab('tasks')}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full text-lg hover:bg-gray-800 transition-colors"
+              >
+                Start Earning Points <Gift className="w-5 h-5" />
+              </button>
+              <p className="text-sm text-gray-400 mt-3">No sign up needed. Just be awesome.</p>
+            </div>
+          </div>
+        )}
+
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (
           <>
