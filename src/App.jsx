@@ -7,6 +7,7 @@ const SAMPLE_TASKS = [
   { id: 3, text: 'Do the dishes', emoji: '🍽️', xp: 25, done: false },
   { id: 4, text: 'Clean the bathroom', emoji: '🚿', xp: 50, done: false },
   { id: 5, text: 'Put glasses in place', emoji: '👓', xp: 15, done: false },
+  { id: 6, text: 'Gifts every week', emoji: '🎁', xp: 75, done: false },
 ];
 
 const TITLES = [
