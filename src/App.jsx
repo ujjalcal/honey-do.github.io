@@ -188,6 +188,31 @@ export default function HoneyDoRPG() {
               </button>
             </div>
 
+            {/* Pain Points - Sound Familiar? */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 text-white">
+              <div className="text-center mb-5">
+                <div className="text-4xl mb-2">😤</div>
+                <h3 className="text-xl font-bold">Sound Familiar?</h3>
+              </div>
+              <div className="space-y-3">
+                {[
+                  "Tired of screaming behind your husband?",
+                  "Does 'I'll do it later' mean never?",
+                  "Is the dishwasher invisible to him?",
+                  "Do you have to ask 47 times for one task?",
+                  "Are dirty socks a permanent floor decoration?",
+                ].map((pain, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-rose-400 flex-shrink-0" />
+                    <span className="text-gray-200">{pain}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 text-center">
+                <p className="text-rose-300 font-medium">There's a better way... 💕</p>
+              </div>
+            </div>
+
             {/* Features */}
             <div className="grid gap-4">
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
