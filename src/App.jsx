@@ -135,7 +135,7 @@ export default function HoneyDoRPG() {
               <h1 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                 HoneyDo <span className="text-rose-400">💕</span>
               </h1>
-              <p className="text-sm text-gray-500">Level {level} · {title.title}</p>
+              <p className="text-sm text-gray-500">Happy wife, happy life — now with XP!</p>
             </div>
             <div className="text-4xl">{title.emoji}</div>
           </div>
