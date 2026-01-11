@@ -816,6 +816,12 @@ export default function HoneyDoRPG() {
                   <p className="text-sm text-amber-700">
                     Complete your tasks, keep your wife happy, and you'll never end up in this hall of horrors.
                   </p>
+                  <button
+                    onClick={() => setActiveTab('tasks')}
+                    className="mt-3 px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition-colors"
+                  >
+                    ← Back to Tasks
+                  </button>
                 </div>
               </div>
             </div>
