@@ -416,7 +416,7 @@ export default function HoneyDoRPG() {
               {/* Husband Tasks Remaining (LEFT) - Goes DOWN as tasks complete */}
               <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
                 <div className="text-center">
-                  <p className="text-xs text-gray-500 mb-2">👨 Tasks Left</p>
+                  <p className="text-xs text-gray-500 mb-2">👨 Task-O-Meter</p>
                   <div className="relative w-32 h-20 mx-auto">
                     <svg viewBox="0 0 120 70" className="w-full h-full">
                       {/* Background arc */}
@@ -472,7 +472,7 @@ export default function HoneyDoRPG() {
               {/* Wife Mood Meter (RIGHT) - Goes UP as tasks complete */}
               <div className="bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
                 <div className="text-center">
-                  <p className="text-xs text-gray-500 mb-2">👩 Her Mood</p>
+                  <p className="text-xs text-gray-500 mb-2">👩 Mood-O-Meter</p>
                   <div className="relative w-32 h-20 mx-auto">
                     <svg viewBox="0 0 120 70" className="w-full h-full">
                       {/* Background arc */}
