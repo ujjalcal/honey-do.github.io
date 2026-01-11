@@ -11,31 +11,31 @@ const SAMPLE_TASKS = [
 ];
 
 const TITLES = [
-  { min: 0, title: 'Couch Cuddler', emoji: '🛋️' },
-  { min: 100, title: 'Sweet Starter', emoji: '🌸' },
-  { min: 300, title: 'Charming Helper', emoji: '✨' },
-  { min: 600, title: 'Domestic Heartthrob', emoji: '💫' },
-  { min: 1000, title: 'Romance Champion', emoji: '🔥' },
-  { min: 2000, title: 'Ultimate Dreamboat', emoji: '👑' },
+  { min: 0, title: 'Couch Potato', emoji: '🥔' },
+  { min: 100, title: 'Rookie Helper', emoji: '🌱' },
+  { min: 300, title: 'Chore Warrior', emoji: '⚔️' },
+  { min: 600, title: 'Domestic Hero', emoji: '🦸' },
+  { min: 1000, title: 'Task Master', emoji: '🏆' },
+  { min: 2000, title: 'Legendary Husband', emoji: '👑' },
 ];
 
-const FLIRTY_MESSAGES = [
-  "Mmm, someone's being helpful... 😏",
-  "Keep this up and you might get lucky tonight 💋",
-  "Nothing sexier than a man who cleans 🔥",
-  "My hero! You're earning brownie points 😘",
-  "Is it hot in here or is it just you working? 🥵",
-  "Watching you work is my favorite show 👀",
-  "You're making it really hard to focus right now 💕",
-  "Damn, responsible looks good on you 😍",
+const TOAST_MESSAGES = [
+  "Look at you go! Who is this man?! 🤩",
+  "She's definitely noticing... 👀",
+  "Brownie points: EARNED 🍫",
+  "The couch is safe for another day! 🛋️",
+  "Wow, doing chores WITHOUT being asked?! 🏆",
+  "Screenshot this moment, it's historic! 📸",
+  "Is this the same guy? Character development! 📈",
+  "Achievement unlocked: Functional Adult! 🎮",
 ];
 
-const ROMANCE_LEVELS = [
-  { min: 0, label: 'Netflix & Chill?', color: 'text-gray-400' },
-  { min: 2, label: 'Getting Warmer...', color: 'text-pink-400' },
-  { min: 3, label: 'Feeling Flirty 💋', color: 'text-pink-500' },
-  { min: 4, label: 'Sparks Flying! 🔥', color: 'text-red-500' },
-  { min: 5, label: 'Tonight\'s the Night 😏', color: 'text-red-600' },
+const MOOD_LEVELS = [
+  { min: 0, label: 'Meh... 😐', color: 'text-gray-400' },
+  { min: 2, label: 'Okay I guess 🙂', color: 'text-yellow-500' },
+  { min: 3, label: 'Pretty Happy! 😊', color: 'text-green-500' },
+  { min: 4, label: 'Very Impressed! 🤩', color: 'text-blue-500' },
+  { min: 5, label: 'Best Husband Ever! 👑', color: 'text-purple-500' },
 ];
 
 const WIFE_REVIEWS = [
@@ -141,7 +141,7 @@ export default function HoneyDoRPG() {
   const level = Math.floor(xp / 200) + 1;
   const xpProgress = (xp % 200) / 200 * 100;
   const title = TITLES.reduce((t, curr) => xp >= curr.min ? curr : t, TITLES[0]);
-  const romanceLevel = ROMANCE_LEVELS.reduce((t, curr) => hearts >= curr.min ? curr : t, ROMANCE_LEVELS[0]);
+  const moodLevel = MOOD_LEVELS.reduce((t, curr) => hearts >= curr.min ? curr : t, MOOD_LEVELS[0]);
   const wifeReview = WIFE_REVIEWS.reduce((t, curr) => xp >= curr.threshold ? curr : t, WIFE_REVIEWS[0]);
 
   // Calculate user's rank
@@ -157,7 +157,7 @@ export default function HoneyDoRPG() {
     setHearts(prev => Math.min(5, prev + 0.5));
     setTasks(tasks.map(t => t.id === id ? { ...t, done: true } : t));
 
-    setFlirtyMessage(FLIRTY_MESSAGES[Math.floor(Math.random() * FLIRTY_MESSAGES.length)]);
+    setFlirtyMessage(TOAST_MESSAGES[Math.floor(Math.random() * TOAST_MESSAGES.length)]);
     setTimeout(() => setFlirtyMessage(null), 3000);
   };
 
@@ -513,8 +513,8 @@ export default function HoneyDoRPG() {
                       <circle cx="60" cy="60" r="6" fill="#374151" />
                     </svg>
                   </div>
-                  <p className={`text-sm font-semibold mt-1 ${romanceLevel.color}`}>
-                    {romanceLevel.label}
+                  <p className={`text-sm font-semibold mt-1 ${moodLevel.color}`}>
+                    {moodLevel.label}
                   </p>
                   <div className="flex justify-center gap-0.5 mt-1">
                     {[...Array(5)].map((_, i) => (
