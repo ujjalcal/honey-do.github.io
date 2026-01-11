@@ -413,10 +413,66 @@ export default function HoneyDoRPG() {
           <>
             {/* Speedometer Gauges */}
             <div className="grid grid-cols-2 gap-4 mb-6">
-              {/* Wife Mood Meter */}
+              {/* Husband Tasks Remaining (LEFT) - Goes DOWN as tasks complete */}
+              <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-2">👨 Tasks Left</p>
+                  <div className="relative w-32 h-20 mx-auto">
+                    <svg viewBox="0 0 120 70" className="w-full h-full">
+                      {/* Background arc */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="#f3f4f6"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                      />
+                      {/* Colored arc - HIGH when many tasks, LOW when few */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="url(#taskGradient)"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        strokeDasharray={`${(pendingTasks.length / Math.max(tasks.length, 1)) * 157} 157`}
+                      />
+                      {/* Gradient - red (danger) to green (safe) */}
+                      <defs>
+                        <linearGradient id="taskGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#22c55e" />
+                          <stop offset="50%" stopColor="#eab308" />
+                          <stop offset="100%" stopColor="#ef4444" />
+                        </linearGradient>
+                      </defs>
+                      {/* Needle */}
+                      <line
+                        x1="60"
+                        y1="60"
+                        x2={60 + 35 * Math.cos(Math.PI - (pendingTasks.length / Math.max(tasks.length, 1)) * Math.PI)}
+                        y2={60 - 35 * Math.sin(Math.PI - (pendingTasks.length / Math.max(tasks.length, 1)) * Math.PI)}
+                        stroke="#374151"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="60" cy="60" r="6" fill="#374151" />
+                    </svg>
+                  </div>
+                  <p className={`text-sm font-semibold mt-1 ${
+                    pendingTasks.length === 0 ? 'text-green-500' :
+                    pendingTasks.length <= 2 ? 'text-yellow-500' : 'text-red-500'
+                  }`}>
+                    {pendingTasks.length === 0 ? 'All Clear! 🎉' :
+                     pendingTasks.length <= 2 ? 'Almost There!' :
+                     pendingTasks.length <= 4 ? 'Keep Going!' : 'Get Moving! 😅'}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">{pendingTasks.length} remaining</p>
+                </div>
+              </div>
+
+              {/* Wife Mood Meter (RIGHT) - Goes UP as tasks complete */}
               <div className="bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
                 <div className="text-center">
-                  <p className="text-xs text-gray-500 mb-2">Wife Mood</p>
+                  <p className="text-xs text-gray-500 mb-2">👩 Her Mood</p>
                   <div className="relative w-32 h-20 mx-auto">
                     <svg viewBox="0 0 120 70" className="w-full h-full">
                       {/* Background arc */}
@@ -439,7 +495,8 @@ export default function HoneyDoRPG() {
                       {/* Gradient definition */}
                       <defs>
                         <linearGradient id="moodGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#f472b6" />
+                          <stop offset="0%" stopColor="#fda4af" />
+                          <stop offset="50%" stopColor="#f472b6" />
                           <stop offset="100%" stopColor="#e11d48" />
                         </linearGradient>
                       </defs>
@@ -466,63 +523,6 @@ export default function HoneyDoRPG() {
                         className={`w-3 h-3 ${i < hearts ? 'text-rose-500 fill-rose-500' : 'text-gray-200'}`}
                       />
                     ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Husband Effectiveness Meter */}
-              <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
-                <div className="text-center">
-                  <p className="text-xs text-gray-500 mb-2">Husband Power</p>
-                  <div className="relative w-32 h-20 mx-auto">
-                    <svg viewBox="0 0 120 70" className="w-full h-full">
-                      {/* Background arc */}
-                      <path
-                        d="M 10 60 A 50 50 0 0 1 110 60"
-                        fill="none"
-                        stroke="#f3f4f6"
-                        strokeWidth="12"
-                        strokeLinecap="round"
-                      />
-                      {/* Colored arc */}
-                      <path
-                        d="M 10 60 A 50 50 0 0 1 110 60"
-                        fill="none"
-                        stroke="url(#powerGradient)"
-                        strokeWidth="12"
-                        strokeLinecap="round"
-                        strokeDasharray={`${Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * 157} 157`}
-                      />
-                      {/* Gradient definition */}
-                      <defs>
-                        <linearGradient id="powerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#60a5fa" />
-                          <stop offset="50%" stopColor="#8b5cf6" />
-                          <stop offset="100%" stopColor="#f97316" />
-                        </linearGradient>
-                      </defs>
-                      {/* Needle */}
-                      <line
-                        x1="60"
-                        y1="60"
-                        x2={60 + 35 * Math.cos(Math.PI - Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * Math.PI)}
-                        y2={60 - 35 * Math.sin(Math.PI - Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * Math.PI)}
-                        stroke="#374151"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                      />
-                      <circle cx="60" cy="60" r="6" fill="#374151" />
-                    </svg>
-                  </div>
-                  <p className="text-sm font-semibold mt-1 text-indigo-600">
-                    {completedTasks.length === 0 ? 'Warming Up...' :
-                     completedTasks.length < tasks.length / 2 ? 'Getting There!' :
-                     completedTasks.length < tasks.length ? 'On Fire! 🔥' : 'LEGENDARY! 👑'}
-                  </p>
-                  <div className="flex items-center justify-center gap-1 mt-1">
-                    <Zap className="w-3 h-3 text-amber-500" />
-                    <span className="text-xs text-gray-500">{completedTasks.length}/{tasks.length} done</span>
-                    {combo > 0 && <span className="text-xs text-orange-500">+{combo}x</span>}
                   </div>
                 </div>
               </div>
