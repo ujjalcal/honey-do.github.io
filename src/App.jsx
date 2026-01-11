@@ -127,7 +127,7 @@ export default function HoneyDoRPG() {
   const [tasks, setTasks] = useState(SAMPLE_TASKS);
   const [xp, setXp] = useState(150);
   const [combo, setCombo] = useState(0);
-  const [hearts, setHearts] = useState(0);
+  const [hearts, setHearts] = useState(2);
   const [newTask, setNewTask] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [flirtyMessage, setFlirtyMessage] = useState(null);
