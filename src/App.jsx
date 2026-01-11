@@ -411,74 +411,147 @@ export default function HoneyDoRPG() {
         {/* Tasks Tab */}
         {activeTab === 'tasks' && (
           <>
-            {/* Romance Card */}
-            <div className="bg-white rounded-2xl p-5 shadow-sm mb-6 border border-rose-100">
-              {/* Romance Meter */}
-              <div className="mb-5">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-500 flex items-center gap-1">
-                    <Sparkles className="w-4 h-4 text-rose-400" />
-                    Romance Meter
-                  </span>
-                  <span className={`text-sm font-medium ${romanceLevel.color}`}>
-                    {romanceLevel.label}
-                  </span>
-                </div>
-                <div className="flex gap-1.5">
-                  {[...Array(5)].map((_, i) => (
-                    <div key={i} className="flex-1 h-3 rounded-full overflow-hidden bg-gray-100">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          i < hearts ? 'bg-gradient-to-r from-pink-400 to-rose-500' : ''
-                        }`}
-                        style={{ width: i < Math.floor(hearts) ? '100%' : i < hearts ? `${(hearts % 1) * 100}%` : '0%' }}
+            {/* Speedometer Gauges */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {/* Wife Mood Meter */}
+              <div className="bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-2">Wife Mood</p>
+                  <div className="relative w-32 h-20 mx-auto">
+                    <svg viewBox="0 0 120 70" className="w-full h-full">
+                      {/* Background arc */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="#f3f4f6"
+                        strokeWidth="12"
+                        strokeLinecap="round"
                       />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="text-center p-3 bg-orange-50 rounded-xl">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <Flame className="w-4 h-4 text-orange-500" />
-                    <span className="text-xl font-bold text-gray-900">{combo}</span>
+                      {/* Colored arc */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="url(#moodGradient)"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        strokeDasharray={`${(hearts / 5) * 157} 157`}
+                      />
+                      {/* Gradient definition */}
+                      <defs>
+                        <linearGradient id="moodGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#f472b6" />
+                          <stop offset="100%" stopColor="#e11d48" />
+                        </linearGradient>
+                      </defs>
+                      {/* Needle */}
+                      <line
+                        x1="60"
+                        y1="60"
+                        x2={60 + 35 * Math.cos(Math.PI - (hearts / 5) * Math.PI)}
+                        y2={60 - 35 * Math.sin(Math.PI - (hearts / 5) * Math.PI)}
+                        stroke="#374151"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="60" cy="60" r="6" fill="#374151" />
+                    </svg>
                   </div>
-                  <p className="text-xs text-gray-500">Hot Streak</p>
-                </div>
-
-                <div className="text-center p-3 bg-rose-50 rounded-xl">
-                  <div className="flex items-center justify-center gap-0.5 mb-1">
+                  <p className={`text-sm font-semibold mt-1 ${romanceLevel.color}`}>
+                    {romanceLevel.label}
+                  </p>
+                  <div className="flex justify-center gap-0.5 mt-1">
                     {[...Array(5)].map((_, i) => (
                       <Heart
                         key={i}
-                        className={`w-3.5 h-3.5 transition-all ${
-                          i < hearts ? 'text-rose-500 fill-rose-500' : 'text-gray-200'
-                        }`}
+                        className={`w-3 h-3 ${i < hearts ? 'text-rose-500 fill-rose-500' : 'text-gray-200'}`}
                       />
                     ))}
                   </div>
-                  <p className="text-xs text-gray-500">Her Mood</p>
-                </div>
-
-                <div className="text-center p-3 bg-amber-50 rounded-xl">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <span className="text-xl font-bold text-gray-900">{xp}</span>
-                  </div>
-                  <p className="text-xs text-gray-500">Love Pts</p>
                 </div>
               </div>
 
-              {combo > 0 && (
-                <div className="mt-4 p-3 bg-gradient-to-r from-orange-50 to-rose-50 rounded-xl border border-orange-100">
-                  <p className="text-sm text-center">
-                    <span className="font-semibold text-orange-600">🔥 {combo}x Hot Streak!</span>
-                    <span className="text-gray-500"> · She's noticing...</span>
+              {/* Husband Effectiveness Meter */}
+              <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-2">Husband Power</p>
+                  <div className="relative w-32 h-20 mx-auto">
+                    <svg viewBox="0 0 120 70" className="w-full h-full">
+                      {/* Background arc */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="#f3f4f6"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                      />
+                      {/* Colored arc */}
+                      <path
+                        d="M 10 60 A 50 50 0 0 1 110 60"
+                        fill="none"
+                        stroke="url(#powerGradient)"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        strokeDasharray={`${Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * 157} 157`}
+                      />
+                      {/* Gradient definition */}
+                      <defs>
+                        <linearGradient id="powerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#60a5fa" />
+                          <stop offset="50%" stopColor="#8b5cf6" />
+                          <stop offset="100%" stopColor="#f97316" />
+                        </linearGradient>
+                      </defs>
+                      {/* Needle */}
+                      <line
+                        x1="60"
+                        y1="60"
+                        x2={60 + 35 * Math.cos(Math.PI - Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * Math.PI)}
+                        y2={60 - 35 * Math.sin(Math.PI - Math.min((completedTasks.length / Math.max(tasks.length, 1)) + (combo * 0.1), 1) * Math.PI)}
+                        stroke="#374151"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="60" cy="60" r="6" fill="#374151" />
+                    </svg>
+                  </div>
+                  <p className="text-sm font-semibold mt-1 text-indigo-600">
+                    {completedTasks.length === 0 ? 'Warming Up...' :
+                     completedTasks.length < tasks.length / 2 ? 'Getting There!' :
+                     completedTasks.length < tasks.length ? 'On Fire! 🔥' : 'LEGENDARY! 👑'}
                   </p>
+                  <div className="flex items-center justify-center gap-1 mt-1">
+                    <Zap className="w-3 h-3 text-amber-500" />
+                    <span className="text-xs text-gray-500">{completedTasks.length}/{tasks.length} done</span>
+                    {combo > 0 && <span className="text-xs text-orange-500">+{combo}x</span>}
+                  </div>
                 </div>
-              )}
+              </div>
+            </div>
+
+            {/* Stats Row */}
+            <div className="bg-white rounded-2xl p-4 shadow-sm mb-6 border border-gray-100">
+              <div className="flex items-center justify-around">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <Flame className="w-5 h-5 text-orange-500" />
+                    <span className="text-2xl font-bold text-gray-900">{combo}</span>
+                  </div>
+                  <p className="text-xs text-gray-500">Streak</p>
+                </div>
+                <div className="w-px h-10 bg-gray-200" />
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
+                    <span className="text-2xl font-bold text-gray-900">{xp}</span>
+                  </div>
+                  <p className="text-xs text-gray-500">Love Pts</p>
+                </div>
+                <div className="w-px h-10 bg-gray-200" />
+                <div className="text-center">
+                  <div className="text-2xl">{title.emoji}</div>
+                  <p className="text-xs text-gray-500">{title.title}</p>
+                </div>
+              </div>
             </div>
 
             {/* Tasks Section */}
